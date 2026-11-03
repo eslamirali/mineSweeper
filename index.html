@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Minefield — مین‌روب</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Minefield">
+        <span class="brand-mark">✣</span><span>MINEFIELD</span>
+        <small>DUEL</small>
+      </a>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" title="تغییر تم" aria-label="تغییر تم">◐</button>
+        <button class="icon-btn" id="helpBtn" title="راهنما" aria-label="راهنما">?</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="live-dot"></span> میدان مین آنلاین</div>
+        <h1>یک حرکت اشتباه، <em>پایان بازی.</em></h1>
+        <p>با رباتی بازی کن که قبل از هر حرکت، سرنخ‌ها را تحلیل می‌کند.</p>
+      </div>
+      <div class="hero-chip"><span>AI ENGINE</span><b>LOGIC v1.0</b></div>
+    </section>
+
+    <section class="game-layout">
+      <aside class="panel sidebar">
+        <div class="panel-heading"><span>وضعیت بازی</span><span class="status-pill" id="statusPill">آماده</span></div>
+        <div class="scoreboard">
+          <div class="score-card player-card">
+            <div class="avatar">YOU</div><span class="score-label">شما</span>
+            <strong id="playerScore">0</strong><small>خانه امن</small>
+          </div>
+          <div class="versus">VS</div>
+          <div class="score-card bot-card">
+            <div class="avatar">AI</div><span class="score-label">ربات</span>
+            <strong id="botScore">0</strong><small>خانه امن</small>
+          </div>
+        </div>
+        <div class="turn-box">
+          <div class="turn-icon" id="turnIcon">◉</div>
+          <div><small>نوبت فعلی</small><b id="turnText">شما بازی را شروع کنید</b></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat"><span>زمان</span><b id="timer">00:00</b></div>
+          <div class="stat"><span>مین باقی‌مانده</span><b id="minesLeft">10</b></div>
+          <div class="stat"><span>خانه امن</span><b id="safeLeft">71</b></div>
+          <div class="stat"><span>درجه سختی</span><b id="difficultyLabel">متوسط</b></div>
+        </div>
+        <div class="divider"></div>
+        <label class="field-label" for="difficulty">اندازه میدان</label>
+        <select id="difficulty">
+          <option value="easy">آسان · 9×9 / 10 مین</option>
+          <option value="medium" selected>متوسط · 9×9 / 10 مین</option>
+          <option value="hard">سخت · 16×16 / 40 مین</option>
+          <option value="expert">حرفه‌ای · 16×30 / 99 مین</option>
+        </select>
+        <button class="primary-btn" id="newGameBtn"><span>＋</span> بازی جدید</button>
+        <button class="secondary-btn" id="botMoveBtn"><span>✧</span> نوبت ربات</button>
+        <div class="legend">
+          <div><span class="legend-dot safe"></span> خانه بازشده</div>
+          <div><span class="legend-dot flag"></span> پرچم شما</div>
+          <div><span class="legend-dot mine"></span> مین</div>
+        </div>
+      </aside>
+
+      <section class="panel board-panel">
+        <div class="board-toolbar">
+          <div><div class="board-title">میدان بازی</div><div class="board-subtitle" id="boardSubtitle">برای شروع یک خانه را انتخاب کن</div></div>
+          <div class="board-tools">
+            <button class="tool-btn active" id="revealMode" title="باز کردن خانه">⌕ <span>بازکردن</span></button>
+            <button class="tool-btn" id="flagMode" title="علامت‌گذاری مین">⚑ <span>پرچم</span></button>
+          </div>
+        </div>
+        <div class="board-wrap">
+          <div id="board" class="board" role="grid" aria-label="صفحه مین‌روب"></div>
+          <div class="overlay" id="overlay">
+            <div class="overlay-card"><div class="overlay-symbol">✣</div><b id="overlayTitle">آماده‌ای؟</b><p id="overlayText">اولین خانه را باز کن تا بازی شروع شود.</p><button id="overlayBtn" class="primary-btn">شروع بازی</button></div>
+          </div>
+        </div>
+        <div class="board-footer">
+          <span><kbd>کلیک</kbd> باز کردن خانه</span><span><kbd>راست‌کلیک</kbd> پرچم</span>
+          <span class="safe-note"><i></i> اولین حرکت امن است</span>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel bot-panel">
+      <div class="bot-avatar"><span>AI</span><i></i></div>
+      <div class="bot-copy"><div class="bot-heading">تحلیل‌گر هوشمند <span class="ai-tag">ACTIVE</span></div><p id="botMessage">من آماده‌ام. پس از نوبت تو، اطلاعات صفحه را تحلیل می‌کنم و بهترین حرکت منطقی را انتخاب می‌کنم.</p></div>
+      <div class="confidence"><small>اطمینان حرکت بعدی</small><b id="confidenceValue">—</b></div>
+    </section>
+    <footer>MINЕFIELD DUEL <span>·</span> ساخته‌شده برای ذهن‌های تحلیل‌گر</footer>
+  </main>
+
+  <dialog id="helpDialog">
+    <div class="dialog-head"><b>راهنمای بازی</b><button id="closeHelp" class="icon-btn">×</button></div>
+    <p>هدف، باز کردن تمام خانه‌های بدون مین است. هر عدد تعداد مین‌های اطراف آن خانه را نشان می‌دهد.</p>
+    <ul><li>روی خانه کلیک کن تا باز شود.</li><li>برای علامت‌گذاری مین، حالت پرچم را انتخاب کن یا راست‌کلیک کن.</li><li>نوبت شما و ربات یکی‌درمیان است؛ هر خانه امنی که باز شود به امتیاز همان بازیکن اضافه می‌شود.</li><li>ربات ابتدا از استنتاج قطعی استفاده می‌کند و در نبود حرکت قطعی، احتمال مین بودن خانه‌ها را تخمین می‌زند.</li></ul>
+    <p class="dialog-note">اگر یکی از شما مین را باز کند، بازی تمام می‌شود. اولین حرکت همیشه امن است.</p>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>
